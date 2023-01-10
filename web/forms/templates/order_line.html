@@ -1,0 +1,39 @@
+{% load general_tags %}
+
+<div class="row mt-2 extra_order_line">
+    {{ form.id }}
+    {{ form.DELETE }}
+    <div class="col-md-3">
+        <div class="form-group">
+            <label>
+                {{ form.product.label }}
+            </label>
+            {{ form.product }}
+            {{ form.product.errors }}
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="form-group">
+            <label>
+                {{ form.quantity.label }}
+            </label>
+            {{ form.quantity }}
+            {{ form.quantity.errors }}
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="form-group">
+            <label>
+                {{ form.unit_price.label }}
+            </label>
+            {{ form.unit_price }}
+            {{ form.unit_price.errors }}
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="form-group" style="padding-top: 21px;">
+            <a href="javascript:void(0);" class="btn btn-danger remove-form float-right"
+               data-prefix="{{ form.prefix }}">Remove</a>
+        </div>
+    </div>
+</div>

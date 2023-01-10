@@ -1,0 +1,160 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block css-head %}
+{# To Add Select2 #}
+{% endblock css-head %}
+
+{% block content %}
+<div class="pagetitle">
+    <h1>Dashboard</h1>
+    <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{%url 'dashboard'%}">Home</a></li>
+            <li class="breadcrumb-item active"><a href="{%url 'view_sale_order'%}">Sale Orders</a></li>
+            <li class="breadcrumb-item active">Order</li>
+        </ol>
+    </nav>
+</div>
+<section class="content">
+    <div class="container-fluid">
+        <form method="post" autocomplete="off" novalidate>
+            {{ formset.management_form }}
+            <div class="card card-default">
+                {% csrf_token %}
+                <div class="card-body">
+                    <h5 class="card-title">Sale Order Form</h5>
+
+                    <!-- Multi Columns Form -->
+
+                        {{ formset.management_form }}
+                        <div class="row mb-1">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="form-label">{{ form.name.label }}</label>
+                                    {{ form.name }}
+                                    {{ form.name.errors }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label">{{ form.contact.label }}</label>
+                                    {{ form.contact }}
+                                    {{ form.contact.errors }}
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label">{{ form.order_date.label }}</label>
+                                    {{ form.order_date }}
+                                    {{ form.order_date.errors }}
+                                </div>
+                            </div>
+                        </div>
+
+
+                </div>
+            </div>
+
+
+            <div id="lot-container">
+
+
+                <div class="card card-default">
+                    <div class="card-header">
+                        <a href="javascript:void(0);" class="btn btn-warning add-form float-right">
+                            Add a line</a>
+
+
+                    </div>
+                   <div class="card-body" id="order_line_body">
+                        {% for forms in formset %}
+                        <div class="row mt-2">
+                            {{ forms.id }}
+                            {{ forms.DELETE }}
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label>
+                                        {{ forms.product.label }}
+                                    </label>
+                                    {{ forms.product }}
+                                    {{ forms.product.errors }}
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label>
+                                        {{ forms.quantity.label }}
+                                    </label>
+                                    {{ forms.quantity }}
+                                    {{ forms.quantity.errors }}
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label>
+                                        {{ forms.unit_price.label }}
+                                    </label>
+                                    {{ forms.unit_price }}
+                                    {{ forms.unit_price.errors }}
+                                </div>
+                            </div>
+                            <div class="col-md-3" style="padding-top: 21px;">
+
+                            </div>
+                        </div>
+                         {% endfor %}
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="card-footer">
+                <button type="submit" class="btn btn-primary">Submit</button>
+                <a href="{% url 'view_sale_order' %}" class="btn btn-secondary">Cancel</a>
+            </div>
+        </form>
+    </div>
+
+</section>
+
+{% endblock content %}
+
+{% block pagejs %}
+<script>
+$(function(){
+    $('.add-form:last').show()
+
+    $(document).on('click', '.add-form', function () {
+                let current_val = $('#id_form-TOTAL_FORMS').val()
+                $.ajax({
+                    url: "{% url 'add_lot_form' %}",
+                    method: 'GET',
+                    data: {"val": current_val},
+                    success: function (result) {
+                        current_val++;
+                        $('#id_form-TOTAL_FORMS').val(current_val)
+                        $("#order_line_body").append(result);
+                    }
+                });
+            });
+
+            $(document).on("click", ".remove-form", function () {
+                let prefix = $(this).data('prefix');
+                let is_update = $('#id_' + prefix + '-id').val()
+                if (is_update !== '') {
+                    $(this).closest('.extra_order_line').hide();
+                    $('#id_' + prefix + '-DELETE').val('1')
+                } else {
+                    let current_val = $('#id_form-TOTAL_FORMS').val()
+                    current_val--;
+                    $('#id_form-TOTAL_FORMS').val(current_val)
+                    $(this).closest('.extra_order_line').remove();
+                }
+            });
+});
+</script>
+{% endblock pagejs %}
