@@ -4,7 +4,7 @@
 {% block css-head %}
 {# To Add Select2 #}
 {% endblock css-head %}
-
+formset
 {% block content %}
 <div class="pagetitle">
     <h1>Dashboard</h1>
@@ -24,10 +24,6 @@
                 {% csrf_token %}
                 <div class="card-body">
                     <h5 class="card-title">Sale Order Form</h5>
-
-                    <!-- Multi Columns Form -->
-
-                        {{ formset.management_form }}
                         <div class="row mb-1">
                             <div class="col-md-12">
                                 <div class="form-group">
@@ -63,15 +59,10 @@
 
 
                 <div class="card card-default">
-                    <div class="card-header">
-                        <a href="javascript:void(0);" class="btn btn-warning add-form float-right">
-                            Add a line</a>
 
-
-                    </div>
-                   <div class="card-body" id="order_line_body">
+                   <div class="card-body mt-2" id="order_line_body">
                         {% for forms in formset %}
-                        <div class="row mt-2">
+                        <div class="row mt-2 extra_order_line">
                             {{ forms.id }}
                             {{ forms.DELETE }}
                             <div class="col-md-3">
@@ -102,10 +93,17 @@
                                 </div>
                             </div>
                             <div class="col-md-3" style="padding-top: 21px;">
-
+                                {% if forms.id.value != 1 %}
+                                    <a href="javascript:void(0);" class="btn btn-danger remove-form float-right"
+                                    data-prefix="{{ forms.prefix }}">Remove</a>
+                                {%endif%}
                             </div>
                         </div>
                          {% endfor %}
+                    </div>
+                     <div class="card-header">
+                        <a href="javascript:void(0);" class="btn btn-warning add-form float-right">
+                            Add a line</a>
                     </div>
 
                 </div>
@@ -146,9 +144,11 @@ $(function(){
                 let prefix = $(this).data('prefix');
                 let is_update = $('#id_' + prefix + '-id').val()
                 if (is_update !== '') {
+                    console.log("yyyyyyyyyyyyyyy");
                     $(this).closest('.extra_order_line').hide();
                     $('#id_' + prefix + '-DELETE').val('1')
                 } else {
+                    console.log("tttttttttttttttttt");
                     let current_val = $('#id_form-TOTAL_FORMS').val()
                     current_val--;
                     $('#id_form-TOTAL_FORMS').val(current_val)
