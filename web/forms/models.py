@@ -42,9 +42,9 @@ class SaleOrderLine(models.Model):
                                  default=None, null=True)
     product = models.ForeignKey(Product, related_name='order_line_product', on_delete=models.SET_NULL,
                                 default=None, null=True)
-    quantity = models.IntegerField(null=False, default=1, blank=False)
+    quantity = models.IntegerField(null=False, blank=False)
     unit_price = models.IntegerField(null=True, blank=False)
-    unit_total = models.IntegerField(null=False, blank=False, default=0)
+    unit_total = models.IntegerField(null=False, blank=False)
 
     class Meta:
         db_table = 'sale_order_line'

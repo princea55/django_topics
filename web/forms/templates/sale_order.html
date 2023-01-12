@@ -74,7 +74,7 @@ formset
                                     {{ forms.product.errors }}
                                 </div>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-2">
                                 <div class="form-group">
                                     <label>
                                         {{ forms.quantity.label }}
@@ -83,7 +83,7 @@ formset
                                     {{ forms.quantity.errors }}
                                 </div>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-2">
                                 <div class="form-group">
                                     <label>
                                         {{ forms.unit_price.label }}
@@ -92,18 +92,28 @@ formset
                                     {{ forms.unit_price.errors }}
                                 </div>
                             </div>
-                            <div class="col-md-3" style="padding-top: 21px;">
+                            <div class="col-md-3" >
+                                 <div class="form-group">
+                                    <label>
+                                        {{ forms.unit_total.label }}
+                                    </label>
+                                    {{ forms.unit_total }}
+                                    {{ forms.unit_total.errors }}
+                                </div>
+                            </div>
+                            <div class="col-md-2" style="padding-top: 21px;">
                                 {% if forms.id.value != 1 %}
                                     <a href="javascript:void(0);" class="btn btn-danger remove-form float-right"
-                                    data-prefix="{{ forms.prefix }}">Remove</a>
+                                    data-prefix="{{ forms.prefix }}"><i class="bi bi-trash-fill"></i></a>
                                 {%endif%}
                             </div>
                         </div>
                          {% endfor %}
                     </div>
-                     <div class="card-header">
+                     <div class="card-header d-flex">
                         <a href="javascript:void(0);" class="btn btn-warning add-form float-right">
                             Add a line</a>
+                         <p style="margin-left: 259px;">Total: <span id="final_total_value">0</span></p>
                     </div>
 
                 </div>
@@ -144,17 +154,54 @@ $(function(){
                 let prefix = $(this).data('prefix');
                 let is_update = $('#id_' + prefix + '-id').val()
                 if (is_update !== '') {
-                    console.log("yyyyyyyyyyyyyyy");
-                    $(this).closest('.extra_order_line').hide();
+                    $(this).closest('.extra_order_line').remove();
                     $('#id_' + prefix + '-DELETE').val('1')
                 } else {
-                    console.log("tttttttttttttttttt");
                     let current_val = $('#id_form-TOTAL_FORMS').val()
                     current_val--;
                     $('#id_form-TOTAL_FORMS').val(current_val)
                     $(this).closest('.extra_order_line').remove();
                 }
+                update_total_price();
             });
+
+            function update_total_price() {
+                var values = [];
+                $('.unit_total').each(function(){
+                    values.push(this.value);
+                });
+                console.log("balues",values, values.reduce((a, b) => parseInt(a) + parseInt(b), 0));
+                 $('#final_total_value').text(values.reduce((a, b) => parseInt(a) + parseInt(b), 0));
+            }
+            update_total_price();
+
+           $("body").on('change','.quantity',function() {
+               $(this).closest(".extra_order_line").find('.unit_total').val($(this).closest(".extra_order_line").find('.unit_price').val() * $(this).val());
+               $(this).closest(".extra_order_line").find('.unit_total').val($(this).closest(".extra_order_line").find('.unit_price').val() * $(this).val());
+               update_total_price();
+            });
+             $("body").on('change','.unit_price',function() {
+               $(this).closest(".extra_order_line").find('.unit_total').val($(this).closest(".extra_order_line").find('.quantity').val() * $(this).val());
+               update_total_price();
+            });
+
+            $("body").on('change','.product',function() {
+            var form_number = $(this).attr('name').split('-')[1]
+               $.ajax({
+                    url: "{% url 'fetch_product_price' %}",
+                    method: 'GET',
+                    data: {"val": $(this).val()},
+                    success: function (result) {
+                       $('#id_form-'+form_number+"-unit_price").val(result[0][0]);
+                       $('#id_form-'+form_number+"-quantity").val(1);
+                       $('#id_form-'+form_number+"-unit_total").val(result[0][0]);
+                       update_total_price();
+                    }
+                });
 });
+            });
+
+
+
 </script>
 {% endblock pagejs %}

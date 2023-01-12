@@ -13,6 +13,7 @@
     <link href="{%static '/topics/vendor/quill/quill.bubble.css'%}" rel="stylesheet">
     <link href="{%static '/topics/vendor/remixicon/remixicon.css'%}" rel="stylesheet">
     <link href="{%static '/topics/vendor/simple-datatables/style.css'%}" rel="stylesheet">
+      <link rel="stylesheet" href="{% static 'topics/css/sweetalert2.min.css' %}">
 
     <!-- Template Main CSS File -->
     <link href="{%static '/topics/css/style.css'%}" rel="stylesheet">
@@ -312,8 +313,10 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 
+
 <!-- Template Main JS File -->
 <script src="{%static 'topics/js/main.js'%}"></script>
+<script src="{% static 'topics/js/sweetalert2.min.js' %}"></script>
 
 {% block js-foot %} {% endblock js-foot %}
 {% block pagejs %} {% endblock pagejs %}

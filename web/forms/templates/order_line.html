@@ -12,7 +12,7 @@
             {{ form.product.errors }}
         </div>
     </div>
-    <div class="col-md-3">
+    <div class="col-md-2">
         <div class="form-group">
             <label>
                 {{ form.quantity.label }}
@@ -21,7 +21,7 @@
             {{ form.quantity.errors }}
         </div>
     </div>
-    <div class="col-md-3">
+    <div class="col-md-2">
         <div class="form-group">
             <label>
                 {{ form.unit_price.label }}
@@ -31,9 +31,18 @@
         </div>
     </div>
     <div class="col-md-3">
+        <div class="form-group">
+            <label>
+                {{ form.unit_total.label }}
+            </label>
+            {{ form.unit_total }}
+            {{ form.unit_total.errors }}
+        </div>
+    </div>
+    <div class="col-md-2">
         <div class="form-group" style="padding-top: 21px;">
             <a href="javascript:void(0);" class="btn btn-danger remove-form float-right"
-               data-prefix="{{ form.prefix }}">Remove</a>
+               data-prefix="{{ form.prefix }}"><i class="bi bi-trash-fill"></i></a>
         </div>
     </div>
 </div>

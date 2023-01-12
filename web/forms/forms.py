@@ -36,13 +36,15 @@ class FormSaleOrderLine(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['product'].widget.attrs.update({'class': 'form-control'})
-        self.fields['quantity'].widget.attrs.update({'class': 'form-control'})
-        self.fields['unit_price'].widget.attrs.update({'class': 'form-control'})
-
+        self.fields['product'].widget.attrs.update({'class': 'form-control product'})
+        self.fields['quantity'].widget.attrs.update({'class': 'form-control quantity'})
+        self.fields['unit_price'].widget.attrs.update({'class': 'form-control unit_price'})
+        self.fields['unit_total'].widget.attrs.update({'class': 'form-control unit_total', 'readonly': True})
+        self.fields['unit_total'].label = 'Total'
+        self.fields['unit_price'].label = 'Price'
     class Meta:
         model = SaleOrderLine
-        fields = ['product', 'quantity', 'unit_price']
+        fields = ['product', 'quantity', 'unit_price', 'unit_total']
 
 
 class BaseLotFormSet(BaseModelFormSet):
