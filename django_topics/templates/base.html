@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 {% load static %}
+{% load general_tags %}
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -192,12 +193,12 @@
 
                 <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
                     <img src="assets/img/profile-img.jpg" alt="Profile" class="rounded-circle">
-                    <span class="d-none d-md-block dropdown-toggle ps-2">K. Anderson</span>
+                    <span class="d-none d-md-block dropdown-toggle ps-2">{{ user.username|title }}</span>
                 </a><!-- End Profile Iamge Icon -->
 
                 <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
                     <li class="dropdown-header">
-                        <h6>Kevin Anderson</h6>
+                        <h6>{{ user.username|title }}</h6>
                         <span>Web Designer</span>
                     </li>
                     <li>
@@ -252,7 +253,7 @@
 <aside id="sidebar" class="sidebar">
 
     <ul class="sidebar-nav" id="sidebar-nav">
-
+        {% set_value request.resolver_match.url_name as current_url %}
         <li class="nav-item">
             <a class="nav-link " href="{%url 'dashboard'%}">
                 <i class="bi bi-grid"></i>
@@ -264,7 +265,7 @@
             <a class="nav-link collapsed" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">
                 <i class="bi bi-menu-button-wide"></i><span>Masters</span><i class="bi bi-chevron-down ms-auto"></i>
             </a>
-            <ul id="components-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+            <ul id="components-nav" class="nav-content collapse {% get_menu_selected_class current_url 1 %}" data-bs-parent="#sidebar-nav">
                 <li>
                     <a href="{%url 'view-product'%}">
                         <i class="bi bi-circle"></i><span>Product</span>

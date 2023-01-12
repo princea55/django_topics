@@ -3,6 +3,9 @@ from django.core import signing
 from django.core.signing import BadSignature
 
 register = template.Library()
+MENU_TYPES = {
+    1: ['view-product', 'add_product', 'update_product', 'delete_product'],
+}
 
 
 def get_signed_value(value):
@@ -17,5 +20,17 @@ def get_unsigned_value(value, max_age=None):
 
 
 @register.simple_tag()
+def set_value(val):
+    return val
+
+
+@register.simple_tag()
 def get_sign_pk(pk):
     return get_signed_value(pk)
+
+
+@register.simple_tag()
+def get_menu_selected_class(current_url, menu_type):
+    if current_url in MENU_TYPES.get(menu_type):
+        return 'show'
+    return ''
