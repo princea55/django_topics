@@ -1,0 +1,18 @@
+{% load general_tags %}
+{% if messages %}
+    {% for message in messages %}
+        {% if message.tags == 'success' %}
+            {% set_value "alert-success" as class %}
+        {% endif %}
+        {% if  message.tags == 'info' %}
+            {% set_value "alert-info" as class %}
+        {% endif %}
+        {% if  message.tags  == 'error' %}
+            {% set_value "alert-danger" as class %}
+        {% endif %}
+        <div class="alert {{ class }}" data-auto-dismiss="">
+            <button aria-hidden="true" class="close" data-dismiss="alert" type="button">×</button>
+            {{ message }}
+        </div>
+    {% endfor %}
+{% endif %}

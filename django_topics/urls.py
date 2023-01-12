@@ -6,7 +6,8 @@ from django_topics import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('django_forms/', include('web.forms.urls'), name='forms')
+    path('', include('web.forms.urls'), name='forms'),
+    path('', include('web.user.urls'), name='forms')
 ]
 
 

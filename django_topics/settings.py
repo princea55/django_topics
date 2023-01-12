@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'web.forms',
+    'web.user',
 ]
 
 MIDDLEWARE = [
@@ -69,7 +70,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'django_topics.wsgi.application'
-
+LOGIN_URL = "login"
 
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
