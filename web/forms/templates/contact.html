@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block css-head %}
+{# To Add Select2 #}
+{% endblock css-head %}
+formset
+{% block content %}
+<div class="pagetitle">
+    <h1>Dashboard</h1>
+    <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{%url 'dashboard'%}">Home</a></li>
+            <li class="breadcrumb-item active"><a href="{%url 'view-contact'%}">Contact</a></li>
+            <li class="breadcrumb-item active">Contact</li>
+        </ol>
+    </nav>
+</div>
+<section class="content">
+    <div class="container-fluid">
+        <form method="post" autocomplete="off" novalidate>
+            {% csrf_token %}
+            <div class="card card-default">
+                <div class="card-body">
+                    <h5 class="card-title">Contact Form</h5>
+                    <div class="row mb-1">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="form-label">{{ form.name.label }}</label>
+                                {{ form.name }}
+                                {{ form.name.errors }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card-footer">
+                <button type="submit" class="btn btn-primary">Submit</button>
+                <a href="{% url 'view-contact' %}" class="btn btn-secondary">Cancel</a>
+            </div>
+        </form>
+    </div>
+
+</section>
+
+{% endblock content %}
+
+{% block pagejs %}
+<script>
+$(function(){
+
+});
+
+</script>
+{% endblock pagejs %}
