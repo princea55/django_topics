@@ -56,6 +56,7 @@ def add_sale_order(request):
     if form.is_valid() and formset.is_valid():
         order = form.save(commit=False)
         order.save()
+        form.save_m2m()
         for forms in formset:
             order_line = forms.save(commit=False)
             order_line.order_id = order
@@ -69,7 +70,9 @@ def update_sale_order(request, pk):
     form = FormSaleOrder(data=request.POST or None, instance=order)
     formset = OrderLineFormset(request.POST or None, queryset=order.order_line_sale_order.all())
     if form.is_valid() and formset.is_valid():
-        order = form.save()
+        order = form.save(commit=False)
+        order.save()
+        form.save_m2m()
         for forms in formset:
             if forms.cleaned_data.get('DELETE'):
                 forms.cleaned_data.get('id').delete()
